@@ -15,7 +15,8 @@ const sequelize = new Sequelize({
 });
 
 const db = {
-  Housemate: sequelize.import('./housemate')
+  Housemate: sequelize.import('./housemate'),
+  KittyStatement: sequelize.import('./kittyStatement')
 }
 
 Object.keys(db).forEach(modelName => {
@@ -23,10 +24,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db)
   }
 })
-
-// User.findAll().then(users => {
-//   console.log(users)
-// })
 
 // needed to run the sequelize.sync in index
 db.sequelize = sequelize;
