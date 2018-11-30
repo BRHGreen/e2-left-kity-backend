@@ -7,10 +7,14 @@ export default `
     email: String,
     kittyReference: String,
     isCurrentHousemate: Boolean,
+    contributingFrom: String,
+    contributingTo: String,
+    paymentsDue: Int,
+    paymentsMade: Int,
   }
 
   type Query {
     allHousemates: [Housemate!]
     getHousemate(id: Int!): Housemate!
 }
-`
+`;

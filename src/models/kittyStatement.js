@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const KittyStatement = sequelize.define('kittyStatement', {
+  const KittyStatement = sequelize.define("kittyStatement", {
     date: DataTypes.DATE,
     counterParty: DataTypes.STRING,
     reference: DataTypes.STRING,
@@ -8,8 +8,9 @@ export default (sequelize, DataTypes) => {
     balance: DataTypes.FLOAT,
     openingBalance: DataTypes.FLOAT,
     month: DataTypes.STRING,
-  },
-  );
+    contributingFrom: DataTypes.DATE,
+    contributingTo: DataTypes.DATE
+  });
 
   return KittyStatement;
 };
