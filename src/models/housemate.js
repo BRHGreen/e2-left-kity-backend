@@ -1,4 +1,5 @@
 import moment from "moment";
+import KittyStatement from "./kittyStatement";
 
 export default (sequelize, DataTypes) => {
   const Housemate = sequelize.define("housemate", {
@@ -14,32 +15,9 @@ export default (sequelize, DataTypes) => {
     paymentsMade: DataTypes.INTEGER
   });
 
-  Housemate.findAll({
-    attributes: ["contributingFrom", "contributingTo", "firstName"]
-  }).then(res => {
-    res.map(
-      ({ dataValues: { contributingFrom, contributingTo, firstName } }) => {
-        console.log(
-          // payments due
-          `${firstName}: ${moment(contributingTo).diff(
-            moment(contributingFrom),
-            "months"
-          )}`
-        );
-      }
-    );
-  });
-
-  Housemate.update(
-    {
-      paymentsDue: 5
-    },
-    {
-      where: {
-        username: "Matt"
-      }
-    }
-  ).then(() => {});
+  Housemate.associate = models => {
+    Housemate.hasMany(models.KittyStatement, { foreignKey: "owner" });
+  };
 
   return Housemate;
 };

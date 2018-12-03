@@ -8,9 +8,12 @@ export default (sequelize, DataTypes) => {
     balance: DataTypes.FLOAT,
     openingBalance: DataTypes.FLOAT,
     month: DataTypes.STRING,
-    contributingFrom: DataTypes.DATE,
-    contributingTo: DataTypes.DATE
+    ownerName: DataTypes.STRING
   });
+
+  KittyStatement.associate = models => {
+    KittyStatement.belongsTo(models.Housemate, { foreignKey: "id" });
+  };
 
   return KittyStatement;
 };

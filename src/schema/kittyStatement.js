@@ -1,5 +1,5 @@
 export default `
-type KittyStatement {
+type kittyStatement {
     id: Int!,
     date: String,
     counterParty: String,
@@ -9,8 +9,10 @@ type KittyStatement {
     balance: Float,
     openingBalance: Float,
     month: String,
+    housemate: Housemate,
+    kittyFKey: String
 }
-type KittyStatementResponse {
+type kittyStatementResponse {
     ok: Boolean!
     errors: [Error!]
 }
@@ -24,15 +26,14 @@ type Mutation {
       balance: Float,
       openingBalance: Float,
       month: String,
-    ): KittyStatementResponse!,
+    ): kittyStatementResponse!,
 }
 
 type Query {
-  getAllKittyStatements: [KittyStatement!]
+  getAllKittyStatements: [kittyStatement!]
 }
 
 type Query {
-  getKittyStatementsByMonth(month: String!): [KittyStatement!]
+  getKittyStatementsByMonth(month: String!): [kittyStatement!]
 }
 `;
-
