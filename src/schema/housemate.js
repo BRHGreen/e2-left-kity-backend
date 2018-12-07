@@ -12,6 +12,7 @@ export default `
     paymentsDue: Int,
     paymentsMade: Int,
     kittyStatement: [kittyStatement]
+    conterParties: [String]
   }
 
   type Query {

@@ -1,5 +1,6 @@
 import moment from "moment";
 import KittyStatement from "./kittyStatement";
+import Sequelize from "sequelize";
 
 export default (sequelize, DataTypes) => {
   const Housemate = sequelize.define("housemate", {
@@ -12,7 +13,8 @@ export default (sequelize, DataTypes) => {
     contributingFrom: DataTypes.DATE,
     contributingTo: DataTypes.DATE,
     paymentsDue: DataTypes.INTEGER,
-    paymentsMade: DataTypes.INTEGER
+    paymentsMade: DataTypes.INTEGER,
+    conterParties: DataTypes.ARRAY(DataTypes.STRING)
   });
 
   Housemate.associate = models => {

@@ -1,3 +1,5 @@
+import kittyStatement from "../schema/kittyStatement";
+
 export default (sequelize, DataTypes) => {
   const KittyStatement = sequelize.define("kittyStatement", {
     date: DataTypes.DATE,
@@ -8,8 +10,10 @@ export default (sequelize, DataTypes) => {
     balance: DataTypes.FLOAT,
     openingBalance: DataTypes.FLOAT,
     month: DataTypes.STRING,
-    ownerName: DataTypes.STRING
+    owner: DataTypes.INTEGER
   });
+
+  //update table with owner name
 
   KittyStatement.associate = models => {
     KittyStatement.belongsTo(models.Housemate, { foreignKey: "id" });

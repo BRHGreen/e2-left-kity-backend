@@ -1,10 +1,17 @@
+import Sequelize from "sequelize";
+
+const Op = Sequelize.Op;
+
 export default {
   Housemate: {
-    kittyStatement: ({ firstName, lastName }, args, { models }) => {
-      console.log("models.KittyStatement>>>>", `${firstName}${lastName}`);
+    kittyStatement: ({ conterParties, id }, args, { models }) => {
+      console.log(">>>>>>", conterParties);
       return models.KittyStatement.findAll({
         where: {
-          ownerName: `${firstName}${lastName}`
+          owner: id
+          // test: {
+          //   [Op.overlap]: conterParties
+          // }
         }
       });
     }

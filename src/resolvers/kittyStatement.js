@@ -24,6 +24,27 @@ export default {
           errors: console.log(err)
         };
       }
+    },
+
+    assignHousemateToStatement: async (
+      parent,
+      { kittyId, newOwner },
+      { models }
+    ) => {
+      try {
+        await models.KittyStatement.update(
+          { owner: newOwner },
+          { where: { id: kittyId } }
+        );
+        return {
+          ok: true
+        };
+      } catch (err) {
+        return {
+          ok: false,
+          errors: console.log(err)
+        };
+      }
     }
   }
 };
