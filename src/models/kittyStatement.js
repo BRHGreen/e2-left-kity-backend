@@ -13,8 +13,6 @@ export default (sequelize, DataTypes) => {
     owner: DataTypes.INTEGER
   });
 
-  //update table with owner name
-
   KittyStatement.associate = models => {
     KittyStatement.belongsTo(models.Housemate, { foreignKey: "id" });
   };

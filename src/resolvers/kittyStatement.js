@@ -9,6 +9,11 @@ export default {
         where: { month: args.month },
         order: [["date", "DESC"]]
       });
+    },
+    getKittyStatementsById: (parent, { id }, { models }) => {
+      return models.KittyStatement.findAll({
+        where: { id }
+      });
     }
   },
   Mutation: {
