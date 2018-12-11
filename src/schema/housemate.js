@@ -17,6 +17,6 @@ export default `
 
   type Query {
     allHousemates: [Housemate!]
-    getHousemate(id: Int!): Housemate!
+    housemateById(id: Int): Housemate!
 }
 `;

@@ -1,3 +1,5 @@
+import sequelize from "sequelize";
+
 export default {
   Query: {
     getAllKittyStatements: (parent, args, { models }) =>
@@ -41,6 +43,7 @@ export default {
           { owner: newOwner },
           { where: { id: kittyId } }
         );
+
         return {
           ok: true
         };

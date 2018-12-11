@@ -18,6 +18,10 @@ export default {
   },
 
   Query: {
-    allHousemates: (parent, args, { models }) => models.Housemate.findAll()
+    allHousemates: (parent, args, { models }) => models.Housemate.findAll(),
+
+    housemateById: (parent, { id }, { models }) => {
+      return models.Housemate.findOne({ where: { id } });
+    }
   }
 };
