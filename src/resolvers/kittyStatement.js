@@ -33,15 +33,31 @@ export default {
       }
     },
 
-    assignHousemateToStatement: async (
-      parent,
-      { kittyId, newOwner },
-      { models }
-    ) => {
+    assignHousemateToStatement: async (parent, args, { models }) => {
+      const { kittyId, newOwner } = args;
       try {
         await models.KittyStatement.update(
           { owner: newOwner },
           { where: { id: kittyId } }
+        );
+        const statement = await models.KittyStatement.findOne({
+          where: { id: kittyId }
+        });
+        const housemate = await models.Housemate.findOne({
+          where: { id: newOwner }
+        });
+
+        const {
+          dataValues: { conterParties }
+        } = housemate;
+
+        models.Housemate.update(
+          {
+            conterParties: conterParties
+              ? [...conterParties, statement.counterParty]
+              : [statement.counterParty]
+          },
+          { where: { id: newOwner } }
         );
 
         return {

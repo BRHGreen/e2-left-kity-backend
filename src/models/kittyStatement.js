@@ -3,7 +3,7 @@ import kittyStatement from "../schema/kittyStatement";
 export default (sequelize, DataTypes) => {
   const KittyStatement = sequelize.define("kittyStatement", {
     date: DataTypes.DATE,
-    counterParty: DataTypes.STRING,
+    counterParty: DataTypes.ARRAY(DataTypes.STRING),
     reference: DataTypes.STRING,
     type: DataTypes.STRING,
     amount: DataTypes.FLOAT,

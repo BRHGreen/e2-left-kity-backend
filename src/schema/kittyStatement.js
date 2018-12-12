@@ -2,7 +2,7 @@ export default `
 type kittyStatement {
     id: Int!,
     date: String,
-    counterParty: String,
+    counterParty: [String],
     reference: String,
     type: String,
     amount: Float,
@@ -19,7 +19,7 @@ type kittyStatementResponse {
 type Mutation {
     createKittyStatement(
       date: String,
-      counterParty: String,
+      counterParty: [String],
       reference: String,
       type: String,
       amount: Float,

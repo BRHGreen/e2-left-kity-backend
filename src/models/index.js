@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
   host: "localhost",
   dialect: "postgres",
   database: "e2_left_kitty",
