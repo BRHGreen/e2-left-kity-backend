@@ -7,15 +7,31 @@ export default {
       models.KittyStatement.findAll({
         order: [["date", "DESC"]]
       }),
-    getKittyStatementsByMonth: (parent, args, { models }) => {
+    getKittyStatementsByMonth: async (parent, args, { models }) => {
+      const getDate = await models.KittyStatement.findAll({
+        limit: 1,
+        order: [["date", "DESC"]],
+        attributes: ["month"]
+      });
+      console.log(">>>>", getDate[0].dataValues.month);
+
+      const latestStatement = getDate[0].dataValues.month;
+
       return models.KittyStatement.findAll({
-        where: { month: args.month },
+        where: {
+          month: args.month || latestStatement
+        },
         order: [["date", "DESC"]]
       });
     },
     getKittyStatementsById: (parent, { id }, { models }) => {
       return models.KittyStatement.findAll({
         where: { id }
+      });
+    },
+    getKittyStatementsByOwnerId: (parent, { owner }, { models }) => {
+      return models.KittyStatement.findAll({
+        where: { owner }
       });
     }
   },
@@ -59,12 +75,10 @@ export default {
     assignHousemateToStatement: async (parent, args, { models }) => {
       const { kittyId, newOwner } = args;
       try {
-        // find kitty by id
         const statement = await models.KittyStatement.findOne({
           where: { id: kittyId }
         });
 
-        // find the user by id
         const housemate = await models.Housemate.findOne({
           where: { id: newOwner }
         });
@@ -73,7 +87,6 @@ export default {
           dataValues: { counterParties }
         } = housemate;
 
-        // update housemate counterparties
         await models.Housemate.update(
           {
             counterParties: counterParties

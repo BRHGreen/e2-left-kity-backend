@@ -41,10 +41,14 @@ type Query {
 }
 
 type Query {
-  getKittyStatementsByMonth(month: String!): [kittyStatement!]
+  getKittyStatementsByMonth(month: String): [kittyStatement!]
 }
 
 type Query {
   getKittyStatementsById(id: Int): [kittyStatement!]
+}
+
+type Query {
+  getKittyStatementsByOwnerId(owner: Int): [kittyStatement!]
 }
 `;
