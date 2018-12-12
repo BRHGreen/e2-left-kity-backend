@@ -12,11 +12,11 @@ export default `
     paymentsDue: Int,
     paymentsMade: Int,
     kittyStatement: [kittyStatement]
-    conterParties: [String]
+    counterParties: String
   }
 
   type Query {
     allHousemates: [Housemate!]
-    housemateById(id: Int): Housemate!
+    housemateById(id: Int): Housemate
   }
 `;

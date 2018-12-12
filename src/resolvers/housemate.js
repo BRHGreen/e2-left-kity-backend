@@ -5,14 +5,14 @@ const Op = Sequelize.Op;
 
 export default {
   Housemate: {
-    kittyStatement: ({ conterParties, id }, args, { models }) => {
-      console.log(">>>>", conterParties);
+    kittyStatement: ({ counterParties, id }, args, { models }) => {
+      console.log(">>>>", counterParties);
       console.log("models.KittyStatement", models.KittyStatement);
 
       return models.KittyStatement.findAll({
         where: {
           counterParty: {
-            [Op.overlap]: conterParties
+            [Op.overlap]: counterParties
           }
           // owner: id
         }

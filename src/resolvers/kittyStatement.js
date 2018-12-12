@@ -1,4 +1,5 @@
-import sequelize from "sequelize";
+import Sequelize from "sequelize";
+const Op = Sequelize.Op;
 
 export default {
   Query: {
@@ -36,28 +37,48 @@ export default {
     assignHousemateToStatement: async (parent, args, { models }) => {
       const { kittyId, newOwner } = args;
       try {
-        await models.KittyStatement.update(
-          { owner: newOwner },
-          { where: { id: kittyId } }
-        );
+        // find kitty by id
         const statement = await models.KittyStatement.findOne({
           where: { id: kittyId }
         });
+
+        // find the user by id
         const housemate = await models.Housemate.findOne({
           where: { id: newOwner }
         });
 
         const {
-          dataValues: { conterParties }
+          dataValues: { counterParties }
         } = housemate;
 
-        models.Housemate.update(
+        // update housemate counterparties
+        await models.Housemate.update(
           {
-            conterParties: conterParties
-              ? [...conterParties, statement.counterParty]
+            counterParties: counterParties
+              ? [...counterParties, statement.counterParty]
               : [statement.counterParty]
           },
           { where: { id: newOwner } }
+        );
+
+        const updatedHousemate = await models.Housemate.findOne({
+          where: { id: newOwner }
+        });
+
+        await models.KittyStatement.update(
+          { owner: newOwner },
+          {
+            where: {
+              [Op.or]: [
+                {
+                  counterParty: {
+                    [Op.overlap]: updatedHousemate.dataValues.counterParties
+                  }
+                },
+                { id: kittyId }
+              ]
+            }
+          }
         );
 
         return {
