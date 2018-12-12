@@ -11,10 +11,7 @@ export default {
 
       return models.KittyStatement.findAll({
         where: {
-          counterParty: {
-            [Op.overlap]: counterParties
-          }
-          // owner: id
+          owner: id
         }
       });
     }

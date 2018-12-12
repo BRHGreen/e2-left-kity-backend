@@ -22,7 +22,29 @@ export default {
   Mutation: {
     createKittyStatement: async (parent, args, { models }) => {
       try {
-        await models.KittyStatement.create({ ...args });
+        const newStatement = await models.KittyStatement.create({ ...args });
+
+        const statementOwner = await models.Housemate.findOne({
+          where: {
+            counterParties: {
+              [Op.overlap]: newStatement.dataValues.counterParty
+            }
+          }
+        });
+
+        if (statementOwner) {
+          const updateStatementWithOwner = await models.KittyStatement.update(
+            { owner: statementOwner.dataValues.id },
+            {
+              where: {
+                counterParty: {
+                  [Op.overlap]: statementOwner.dataValues.counterParties
+                }
+              }
+            }
+          );
+        }
+
         return {
           ok: true
         };

@@ -12,7 +12,7 @@ export default `
     paymentsDue: Int,
     paymentsMade: Int,
     kittyStatement: [kittyStatement]
-    counterParties: String
+    counterParties: [[String]]
   }
 
   type Query {
