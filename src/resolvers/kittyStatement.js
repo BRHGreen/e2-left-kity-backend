@@ -13,7 +13,6 @@ export default {
         order: [["date", "DESC"]],
         attributes: ["month"]
       });
-      console.log(">>>>", getDate[0].dataValues.month);
 
       const latestStatement = getDate[0].dataValues.month;
 
@@ -32,6 +31,18 @@ export default {
     getKittyStatementsByOwnerId: (parent, { owner }, { models }) => {
       return models.KittyStatement.findAll({
         where: { owner }
+      });
+    },
+    getPayInKittyStatementsByOwnerId: (
+      parent,
+      { owner, amount },
+      { models }
+    ) => {
+      return models.KittyStatement.findAll({
+        where: {
+          owner,
+          amount: { [Op.gt]: 0 }
+        }
       });
     }
   },

@@ -51,4 +51,7 @@ type Query {
 type Query {
   getKittyStatementsByOwnerId(owner: Int): [kittyStatement!]
 }
+type Query {
+  getPayInKittyStatementsByOwnerId(owner: Int): [kittyStatement!]
+}
 `;
