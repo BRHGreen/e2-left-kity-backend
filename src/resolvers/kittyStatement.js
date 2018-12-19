@@ -1,4 +1,9 @@
 import Sequelize from "sequelize";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
+
 const Op = Sequelize.Op;
 
 export default {
@@ -71,6 +76,27 @@ export default {
           amount: { [Op.gt]: 0 }
         }
       });
+    },
+
+    getPaymentsDueForMonth: async (parent, args, { models }) => {
+      const statements = await models.KittyStatement.findAll({
+        attributes: ["month"]
+      });
+      const housemates = await models.Housemate.findAll({
+        attributes: ["contributingFrom", "contributingTo"]
+      });
+      console.log(">>>", statements[1].dataValues);
+      console.log(">>>", housemates[0].dataValues);
+
+      const start = housemates[0].dataValues.contributingFrom;
+      const end = housemates[0].dataValues.contributingTo;
+      const range = moment.range(start, end);
+      const isInDateRange = range.contains(
+        new Date(
+          moment(`01/${statements[1].dataValues.month}`, "DD MM YYYY").format()
+        )
+      );
+      console.log(">>>", isInDateRange);
     }
   },
   Mutation: {

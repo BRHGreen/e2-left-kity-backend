@@ -63,4 +63,8 @@ type Query {
 type Query {
   getPayInKittyStatementsByOwnerId(owner: Int): [KittyStatement!]
 }
+
+type Query {
+  getPaymentsDueForMonth: [KittyStatement]
+}
 `;
