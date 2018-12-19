@@ -11,7 +11,7 @@ export default `
     contributingTo: String,
     paymentsDue: Int,
     paymentsMade: Int,
-    kittyStatement: [kittyStatement]
+    kittyStatement: [KittyStatement]
     counterParties: [[String]]
   }
 

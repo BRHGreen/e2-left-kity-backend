@@ -19,6 +19,7 @@ export default (sequelize, DataTypes) => {
 
   Housemate.associate = models => {
     Housemate.hasMany(models.KittyStatement, { foreignKey: "owner" });
+    Housemate.hasOne(models.KittyStatement, { foreignKey: "owner" });
   };
 
   return Housemate;

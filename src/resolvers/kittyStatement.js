@@ -2,6 +2,14 @@ import Sequelize from "sequelize";
 const Op = Sequelize.Op;
 
 export default {
+  KittyStatement: {
+    housemate: ({ owner }, args, { models }) => {
+      return models.Housemate.findOne({
+        where: { id: owner }
+      });
+    }
+  },
+
   Query: {
     getAllKittyStatements: (parent, args, { models }) =>
       models.KittyStatement.findAll({
@@ -23,6 +31,25 @@ export default {
         order: [["date", "DESC"]]
       });
     },
+
+    getAllPayInKittyStatements: (parent, { amount }, { models }) => {
+      return models.KittyStatement.findAll({
+        where: {
+          amount: { [Op.gt]: 0 }
+        },
+        order: [["date", "DESC"]]
+      });
+    },
+
+    getPayInKittyStatementsByMonth: (parent, { month, amount }, { models }) => {
+      return models.KittyStatement.findAll({
+        where: {
+          month,
+          amount: { [Op.gt]: 0 }
+        }
+      });
+    },
+
     getKittyStatementsById: (parent, { id }, { models }) => {
       return models.KittyStatement.findAll({
         where: { id }

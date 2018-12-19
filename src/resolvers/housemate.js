@@ -5,10 +5,7 @@ const Op = Sequelize.Op;
 
 export default {
   Housemate: {
-    kittyStatement: ({ counterParties, id }, args, { models }) => {
-      console.log(">>>>", counterParties);
-      console.log("models.KittyStatement", models.KittyStatement);
-
+    kittyStatement: ({ id }, args, { models }) => {
       return models.KittyStatement.findAll({
         where: {
           owner: id

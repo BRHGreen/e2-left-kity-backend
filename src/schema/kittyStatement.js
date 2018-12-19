@@ -1,5 +1,5 @@
 export default `
-type kittyStatement {
+type KittyStatement {
     id: Int!,
     date: String,
     counterParty: [String],
@@ -37,21 +37,30 @@ type Mutation {
 }
 
 type Query {
-  getAllKittyStatements: [kittyStatement!]
+  getAllKittyStatements: [KittyStatement!]
 }
 
 type Query {
-  getKittyStatementsByMonth(month: String): [kittyStatement!]
+  getKittyStatementsByMonth(month: String): [KittyStatement!]
 }
 
 type Query {
-  getKittyStatementsById(id: Int): [kittyStatement!]
+  getKittyStatementsById(id: Int): [KittyStatement!]
 }
 
 type Query {
-  getKittyStatementsByOwnerId(owner: Int): [kittyStatement!]
+  getAllPayInKittyStatements: [KittyStatement!]
 }
+
 type Query {
-  getPayInKittyStatementsByOwnerId(owner: Int): [kittyStatement!]
+  getPayInKittyStatementsByMonth(month: String): [KittyStatement!]
+}
+
+type Query {
+  getKittyStatementsByOwnerId(owner: Int): [KittyStatement!]
+}
+
+type Query {
+  getPayInKittyStatementsByOwnerId(owner: Int): [KittyStatement!]
 }
 `;
