@@ -65,6 +65,6 @@ type Query {
 }
 
 type Query {
-  getPaymentsDueForMonth: [KittyStatement]
+  getPaymentsDueForMonth(month: String): [Housemate]
 }
 `;
