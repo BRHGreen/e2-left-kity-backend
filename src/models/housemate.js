@@ -14,7 +14,8 @@ export default (sequelize, DataTypes) => {
     contributingTo: DataTypes.DATE,
     paymentsDue: DataTypes.INTEGER,
     paymentsMade: DataTypes.INTEGER,
-    counterParties: DataTypes.ARRAY(DataTypes.STRING)
+    counterParties: DataTypes.ARRAY(DataTypes.STRING),
+    monthsPaid: DataTypes.ARRAY(DataTypes.STRING)
   });
 
   Housemate.associate = models => {

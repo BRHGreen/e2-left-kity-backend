@@ -51,7 +51,8 @@ export default {
         where: {
           month,
           amount: { [Op.gt]: 0 }
-        }
+        },
+        order: [["owner"]]
       });
     },
 
@@ -78,22 +79,19 @@ export default {
       });
     },
 
-    getPaymentsDueForMonth: async (parent, { month }, { models }) => {
+    getPaymentsDueFromHousematesForMonth: async (
+      parent,
+      { month },
+      { models }
+    ) => {
       const statements = await models.KittyStatement.findAll({
         attributes: ["month"],
         where: {
           month
         }
       });
-      // console.log("statements", statements);
       const housemates = await models.Housemate.findAll({
-        attributes: [
-          "id",
-          "firstName",
-          "lastName",
-          "contributingFrom",
-          "contributingTo"
-        ]
+        attributes: ["id", "contributingFrom", "contributingTo"]
       });
 
       const paymentsDue = await housemates.map(({ dataValues: housemate }) => {
@@ -112,11 +110,11 @@ export default {
             return null;
           }
           if (isInDateRange) {
-            console.log(housemate);
             return models.Housemate.findOne({
               where: {
                 id: housemate.id
-              }
+              },
+              order: [["id"]]
             });
           }
         }
@@ -125,6 +123,7 @@ export default {
       return paymentsDue;
     }
   },
+
   Mutation: {
     createKittyStatement: async (parent, args, { models }) => {
       try {

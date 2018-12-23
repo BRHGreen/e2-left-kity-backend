@@ -15,6 +15,18 @@ export default `
     counterParties: [[String]]
   }
 
+  type housemateResponse {
+    ok: Boolean!
+    errors: [Error!]
+  }
+
+  type Mutation {
+    updateMonthsPaid(
+      owner: Int!
+      monthsPaid: String,
+    ): housemateResponse
+  }
+
   type Query {
     allHousemates: [Housemate!]
     housemateById(id: Int): Housemate

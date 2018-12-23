@@ -61,10 +61,10 @@ type Query {
 }
 
 type Query {
-  getPayInKittyStatementsByOwnerId(owner: Int): [KittyStatement!]
+  getPayInKittyStatementsByOwnerId(owner: Int): [KittyStatement]
 }
 
 type Query {
-  getPaymentsDueForMonth(month: String): [Housemate]
+  getPaymentsDueFromHousematesForMonth(month: String): [Housemate]
 }
 `;
