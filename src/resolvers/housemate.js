@@ -1,5 +1,9 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../models";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
 
 const Op = Sequelize.Op;
 
@@ -19,6 +23,62 @@ export default {
 
     housemateById: (parent, { id }, { models }) => {
       return models.Housemate.findOne({ where: { id } });
+    },
+    getPaymentsDueFromHousematesByHousemateId: (parent, { id }, { models }) => {
+      return models.Housemate.findOne({ where: { id } });
+    },
+    getPaymentsDueFromHousematesForMonth: async (
+      parent,
+      { month },
+      { models }
+    ) => {
+      const getDate = await models.KittyStatement.findAll({
+        limit: 1,
+        order: [["date", "DESC"]],
+        attributes: ["month"]
+      });
+
+      const monthToGet = getDate[0].dataValues.month || month;
+
+      console.log("monthToGet >>> ", monthToGet);
+
+      const statements = await models.KittyStatement.findAll({
+        attributes: ["month"],
+        where: {
+          month: monthToGet
+        }
+      });
+      const housemates = await models.Housemate.findAll({
+        attributes: ["id", "contributingFrom", "contributingTo"]
+      });
+
+      const paymentsDue = await housemates.map(({ dataValues: housemate }) => {
+        const start = housemate.contributingFrom;
+        const end = housemate.contributingTo;
+        if (start && end) {
+          const range = moment.range(start, end);
+          const selectedMonth = new Date(
+            moment(`02/${statements[0].dataValues.month}`, "DD MM YYYY").format(
+              "YYYY MM DD"
+            )
+          );
+          const isInDateRange = range.contains(selectedMonth);
+
+          if (start === null || end === null) {
+            return null;
+          }
+          if (isInDateRange) {
+            return models.Housemate.findOne({
+              where: {
+                id: housemate.id
+              },
+              order: [["id"]]
+            });
+          }
+        }
+      });
+
+      return paymentsDue;
     }
   },
   Mutation: {

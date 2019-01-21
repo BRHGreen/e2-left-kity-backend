@@ -12,7 +12,8 @@ export default `
     paymentsDue: Int,
     paymentsMade: Int,
     kittyStatement: [KittyStatement]
-    counterParties: [[String]]
+    counterParties: String,
+    monthsPaid: [String]
   }
 
   type housemateResponse {
@@ -30,5 +31,13 @@ export default `
   type Query {
     allHousemates: [Housemate!]
     housemateById(id: Int): Housemate
+  }
+
+  type Query {
+    getPaymentsDueFromHousematesForMonth(month: String): [Housemate]
+  }
+
+  type Query {
+    getPaymentsDueFromHousematesByHousemateId(month: String): [Housemate]
   }
 `;

@@ -1,8 +1,4 @@
 import Sequelize from "sequelize";
-import Moment from "moment";
-import { extendMoment } from "moment-range";
-
-const moment = extendMoment(Moment);
 
 const Op = Sequelize.Op;
 
@@ -31,7 +27,7 @@ export default {
 
       return models.KittyStatement.findAll({
         where: {
-          month: args.month || latestStatement
+          month: latestStatement || args.month
         },
         order: [["date", "DESC"]]
       });
@@ -46,10 +42,22 @@ export default {
       });
     },
 
-    getPayInKittyStatementsByMonth: (parent, { month, amount }, { models }) => {
+    getPayInKittyStatementsByMonth: async (
+      parent,
+      { month, amount },
+      { models }
+    ) => {
+      const getDate = await models.KittyStatement.findAll({
+        limit: 1,
+        order: [["date", "DESC"]],
+        attributes: ["month"]
+      });
+
+      const latestStatement = getDate[0].dataValues.month;
+
       return models.KittyStatement.findAll({
         where: {
-          month,
+          month: latestStatement || args.month,
           amount: { [Op.gt]: 0 }
         },
         order: [["owner"]]
@@ -77,50 +85,6 @@ export default {
           amount: { [Op.gt]: 0 }
         }
       });
-    },
-
-    getPaymentsDueFromHousematesForMonth: async (
-      parent,
-      { month },
-      { models }
-    ) => {
-      const statements = await models.KittyStatement.findAll({
-        attributes: ["month"],
-        where: {
-          month
-        }
-      });
-      const housemates = await models.Housemate.findAll({
-        attributes: ["id", "contributingFrom", "contributingTo"]
-      });
-
-      const paymentsDue = await housemates.map(({ dataValues: housemate }) => {
-        const start = housemate.contributingFrom;
-        const end = housemate.contributingTo;
-        if (start && end) {
-          const range = moment.range(start, end);
-          const selectedMonth = new Date(
-            moment(`02/${statements[0].dataValues.month}`, "DD MM YYYY").format(
-              "YYYY MM DD"
-            )
-          );
-          const isInDateRange = range.contains(selectedMonth);
-
-          if (start === null || end === null) {
-            return null;
-          }
-          if (isInDateRange) {
-            return models.Housemate.findOne({
-              where: {
-                id: housemate.id
-              },
-              order: [["id"]]
-            });
-          }
-        }
-      });
-
-      return paymentsDue;
     }
   },
 
