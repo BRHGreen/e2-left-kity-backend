@@ -42,6 +42,16 @@ export default {
       });
     },
 
+    getLatestMonth: async (parent, args, { models }) => {
+      const getDate = await models.KittyStatement.findAll({
+        limit: 1,
+        order: [["date", "DESC"]],
+        attributes: ["month"]
+      });
+
+      return getDate[0].dataValues.month;
+    },
+
     getPayInKittyStatementsByMonth: async (
       parent,
       { month, amount },
@@ -57,7 +67,7 @@ export default {
 
       return models.KittyStatement.findAll({
         where: {
-          month: latestStatement || args.month,
+          month: month || latestStatement,
           amount: { [Op.gt]: 0 }
         },
         order: [["owner"]]

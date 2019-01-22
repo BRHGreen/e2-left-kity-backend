@@ -38,14 +38,12 @@ export default {
         attributes: ["month"]
       });
 
-      const monthToGet = getDate[0].dataValues.month || month;
-
-      console.log("monthToGet >>> ", monthToGet);
+      const latestStatement = getDate[0].dataValues.month;
 
       const statements = await models.KittyStatement.findAll({
         attributes: ["month"],
         where: {
-          month: monthToGet
+          month: month || latestStatement
         }
       });
       const housemates = await models.Housemate.findAll({
@@ -56,6 +54,8 @@ export default {
         const start = housemate.contributingFrom;
         const end = housemate.contributingTo;
         if (start && end) {
+          console.log(">>>", start);
+
           const range = moment.range(start, end);
           const selectedMonth = new Date(
             moment(`02/${statements[0].dataValues.month}`, "DD MM YYYY").format(
