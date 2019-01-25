@@ -10,7 +10,9 @@ type KittyStatement {
     openingBalance: Float,
     month: String,
     housemate: Housemate,
+    assignee: Housemate,
     owner: Int
+    paymentAsignee: Int
 }
 type kittyStatementResponse {
     ok: Boolean!
@@ -33,6 +35,13 @@ type Mutation {
   assignHousemateToStatement(
     newOwner: Int,
     kittyId: Int
+  ): kittyStatementResponse!
+}
+
+type Mutation {
+  updatePaymentAsignee(
+    kittyId: Int
+    asignee: Int,
   ): kittyStatementResponse!
 }
 

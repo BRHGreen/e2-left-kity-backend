@@ -8,6 +8,11 @@ export default {
       return models.Housemate.findOne({
         where: { id: owner }
       });
+    },
+    assignee: ({ paymentAsignee }, args, { models }) => {
+      return models.Housemate.findOne({
+        where: { id: paymentAsignee }
+      });
     }
   },
 
@@ -124,6 +129,28 @@ export default {
           );
         }
 
+        return {
+          ok: true
+        };
+      } catch (err) {
+        return {
+          ok: false,
+          errors: console.log(err)
+        };
+      }
+    },
+
+    updatePaymentAsignee: async (parent, args, { models }) => {
+      const { kittyId, asignee } = args;
+      try {
+        await models.KittyStatement.update(
+          {
+            paymentAsignee: asignee
+          },
+          {
+            where: { id: kittyId }
+          }
+        );
         return {
           ok: true
         };

@@ -54,8 +54,6 @@ export default {
         const start = housemate.contributingFrom;
         const end = housemate.contributingTo;
         if (start && end) {
-          console.log(">>>", start);
-
           const range = moment.range(start, end);
           const selectedMonth = new Date(
             moment(`02/${statements[0].dataValues.month}`, "DD MM YYYY").format(
