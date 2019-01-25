@@ -81,7 +81,6 @@ export default {
   },
   Mutation: {
     updateMonthsPaid: async (parent, { monthsPaid, owner }, { models }) => {
-      console.log("monthsPaid", monthsPaid);
       try {
         await models.Housemate.update(
           {

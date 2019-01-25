@@ -9,9 +9,9 @@ export default {
         where: { id: owner }
       });
     },
-    assignee: ({ paymentAsignee }, args, { models }) => {
+    assignee: ({ paymentAssignee }, args, { models }) => {
       return models.Housemate.findOne({
-        where: { id: paymentAsignee }
+        where: { id: paymentAssignee }
       });
     }
   },
@@ -140,12 +140,12 @@ export default {
       }
     },
 
-    updatePaymentAsignee: async (parent, args, { models }) => {
-      const { kittyId, asignee } = args;
+    updatePaymentAssignee: async (parent, args, { models }) => {
+      const { kittyId, assignee } = args;
       try {
         await models.KittyStatement.update(
           {
-            paymentAsignee: asignee
+            paymentAssignee: assignee
           },
           {
             where: { id: kittyId }

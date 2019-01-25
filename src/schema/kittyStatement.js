@@ -12,7 +12,7 @@ type KittyStatement {
     housemate: Housemate,
     assignee: Housemate,
     owner: Int
-    paymentAsignee: Int
+    paymentAssignee: Int
 }
 type kittyStatementResponse {
     ok: Boolean!
@@ -39,9 +39,9 @@ type Mutation {
 }
 
 type Mutation {
-  updatePaymentAsignee(
+  updatePaymentAssignee(
     kittyId: Int
-    asignee: Int,
+    assignee: Int,
   ): kittyStatementResponse!
 }
 
