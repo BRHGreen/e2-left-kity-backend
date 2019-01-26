@@ -23,8 +23,8 @@ export default `
 
   type Mutation {
     updateMonthsPaid(
-      owner: Int!
-      monthsPaid: String,
+      housemateId: Int!
+      monthsPaid: [String],
     ): housemateResponse
   }
 

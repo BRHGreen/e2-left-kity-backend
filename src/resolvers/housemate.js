@@ -80,25 +80,33 @@ export default {
     }
   },
   Mutation: {
-    updateMonthsPaid: async (parent, { monthsPaid, owner }, { models }) => {
+    updateMonthsPaid: async (
+      parent,
+      { monthsPaid, housemateId },
+      { models }
+    ) => {
       try {
-        await models.Housemate.update(
-          {
-            monthsPaid: sequelize.fn(
-              "array_append",
-              sequelize.col("monthsPaid"),
-              monthsPaid
-            )
-          },
-          {
-            where: {
-              id: owner
-            }
-          }
+        await Promise.all(
+          monthsPaid.map(month => {
+            models.Housemate.update(
+              {
+                monthsPaid: sequelize.fn(
+                  "array_append",
+                  sequelize.col("monthsPaid"),
+                  month
+                )
+              },
+              {
+                where: {
+                  id: housemateId
+                }
+              }
+            );
+            return {
+              ok: true
+            };
+          })
         );
-        return {
-          ok: true
-        };
       } catch (err) {
         return {
           ok: false,
