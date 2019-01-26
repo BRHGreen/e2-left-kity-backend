@@ -75,4 +75,7 @@ type Query {
 type Query {
   getLatestMonth: String!
 }
+type Query {
+  getAvailableMonths: [String]
+}
 `;

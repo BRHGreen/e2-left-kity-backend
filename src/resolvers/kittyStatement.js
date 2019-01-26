@@ -17,6 +17,24 @@ export default {
   },
 
   Query: {
+    getAvailableMonths: async (parent, args, { models }) => {
+      const getMonths = await models.KittyStatement.findAll({
+        order: [["date", "DESC"]],
+        attributes: ["month"]
+      });
+
+      const availableMonths = [];
+
+      getMonths.forEach(month => {
+        console.log("month", month);
+
+        if (!availableMonths.includes(month.dataValues.month)) {
+          availableMonths.push(month.dataValues.month);
+        }
+      });
+      return availableMonths;
+    },
+
     getAllKittyStatements: (parent, args, { models }) =>
       models.KittyStatement.findAll({
         order: [["date", "DESC"]]
