@@ -11,8 +11,9 @@ type KittyStatement {
     month: String,
     housemate: Housemate,
     assignee: Housemate,
-    owner: Int
-    paymentAssignee: Int
+    owner: Int,
+    paymentAssignee: Int,
+    paymentForMonths: [String],
 }
 type kittyStatementResponse {
     ok: Boolean!
@@ -40,8 +41,15 @@ type Mutation {
 
 type Mutation {
   updatePaymentAssignee(
-    kittyId: Int
-    assignee: Int,
+    kittyId: Int!
+    assignee: Int!,
+  ): kittyStatementResponse!
+}
+
+type Mutation {
+  updatePaymentForMonths(
+    kittyId: Int!
+    months: [String]!,
   ): kittyStatementResponse!
 }
 

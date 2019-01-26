@@ -11,7 +11,9 @@ export default (sequelize, DataTypes) => {
     openingBalance: DataTypes.FLOAT,
     month: DataTypes.STRING,
     owner: DataTypes.INTEGER,
-    paymentAssignee: DataTypes.INTEGER
+    paymentAssignee: DataTypes.INTEGER,
+    counterParty: DataTypes.ARRAY(DataTypes.STRING),
+    paymentForMonths: DataTypes.ARRAY(DataTypes.STRING)
   });
 
   KittyStatement.associate = models => {

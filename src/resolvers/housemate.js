@@ -15,6 +15,13 @@ export default {
           owner: id
         }
       });
+    },
+    assignedStatements: ({ id }, args, { models }) => {
+      return models.KittyStatement.findAll({
+        where: {
+          paymentAssignee: id
+        }
+      });
     }
   },
 

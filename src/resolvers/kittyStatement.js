@@ -26,8 +26,6 @@ export default {
       const availableMonths = [];
 
       getMonths.forEach(month => {
-        console.log("month", month);
-
         if (!availableMonths.includes(month.dataValues.month)) {
           availableMonths.push(month.dataValues.month);
         }
@@ -164,6 +162,29 @@ export default {
         await models.KittyStatement.update(
           {
             paymentAssignee: assignee
+          },
+          {
+            where: { id: kittyId }
+          }
+        );
+        return {
+          ok: true
+        };
+      } catch (err) {
+        return {
+          ok: false,
+          errors: console.log(err)
+        };
+      }
+    },
+
+    updatePaymentForMonths: async (parent, args, { models }) => {
+      const { kittyId, months } = args;
+
+      try {
+        await models.KittyStatement.update(
+          {
+            paymentForMonths: months
           },
           {
             where: { id: kittyId }

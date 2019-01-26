@@ -14,6 +14,7 @@ export default `
     kittyStatement: [KittyStatement]
     counterParties: String,
     monthsPaid: [String]
+    assignedStatements: [KittyStatement]
   }
 
   type housemateResponse {
