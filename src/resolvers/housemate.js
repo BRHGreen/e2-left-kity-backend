@@ -86,6 +86,7 @@ export default {
       return paymentsDue;
     }
   },
+
   Mutation: {
     updateMonthsPaid: async (
       parent,
